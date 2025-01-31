@@ -29,7 +29,17 @@ jobs:
           dotnet-version: |
             8.0.x
             9.0.x
-      - run: dotnet test
+      
+      - name: dotnet build
+        run: dotnet build -c Release
+        working-directory: dotnet
+
+      - name: dotnet test
+        run: dotnet test -c Release --no-build
+        working-directory: dotnet
+
+      - name: dotnet pack # pack is not required for testing, but it does ensure that the nuget packages can be generated when a new version is released.
+        run: dotnet pack -c Release --no-build
         working-directory: dotnet
 
       - name: run acceptance tests
